@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Η Σελίδα Μου</title>
+  <link rel="stylesheet" href="layout_style.css">
+  <link rel="stylesheet" href="arxiki.css">
+</head>
+<body>
+  <!-- Το layout θα φορτωθεί εδώ -->
+<div id="layout1"></div>
+<main>
+  <!-- SLIDER -->
+  <div class="slider poke-slider">
+    <div class="slides-wrapper"></div>
+
+    <button class="prev">❮</button>
+    <button class="next">❯</button>
+
+    <div class="dots"></div>
+  </div>
+
+  <!-- STORIES -->
+  <div class="story-block">
+    <h3>Κουραμπιέδες</h3>
+    <p>Οι κουραμπιέδες έχουν ρίζες στη Μικρά Ασία και έγιναν σύμβολο των ελληνικών Χριστουγέννων.</p>
+  </div>
+
+  <div class="story-block">
+    <h3>Μελομακάρονα</h3>
+    <p>Προέρχονται από τα αρχαία «μακαρωνία» και συνδέονται με τελετουργικές γιορτές.</p>
+  </div>
+
+  <div class="story-block">
+    <h3>Δίπλες</h3>
+    <p>Σύμβολο χαράς και καλοτυχίας, παραδοσιακό γλυκό της Πελοποννήσου.</p>
+  </div>
+
+</div>
+<script>
+/* ===============================
+          SLIDER SCRIPT
+   =============================== */
+function initSlider() {
+  const imageSources = [
+    "https://dimitriosmakriniotis.gr/wp-content/uploads/2022/11/ARS06487-scaled.jpeg",
+    "https://www.gastronomos.gr/wp-content/uploads/2023/12/melomakarona-stani-gastronomos-610x762.jpg?v=1702468541",
+    "https://akispetretzikis.com/photos/180489/diples-7-10-24-site.jpg"
+  ];
+
+  const slider = document.querySelector('.poke-slider');
+  const wrapper = slider.querySelector('.slides-wrapper');
+  const dotsContainer = slider.querySelector('.dots');
+  const prevBtn = slider.querySelector('.prev');
+  const nextBtn = slider.querySelector('.next');
+
+  let current = 0;
+  const slides = [];
+  const dots = [];
+  let autoplayInterval = null;
+  const AUTOPLAY_DELAY = 3500;
+
+  /* Create images + dots */
+  imageSources.forEach((src, idx) => {
+    const img = document.createElement('img');
+    img.src = src;
+
+    if (idx === 0) img.classList.add('active');
+    wrapper.appendChild(img);
+    slides.push(img);
+
+    const dot = document.createElement('button');
+    if (idx === 0) dot.classList.add('active');
+    dot.addEventListener('click', () => goTo(idx));
+    dotsContainer.appendChild(dot);
+    dots.push(dot);
+  });
+
+  function setActive(index, direction = 'right') {
+    if (index === current) return;
+
+    const prev = slides[current];
+    const next = slides[index];
+
+    prev.classList.remove('active');
+
+    next.classList.add(direction === 'right' ? 'enter-from-right' : 'enter-from-left');
+    next.classList.add('active');
+
+    setTimeout(() => {
+      next.classList.remove('enter-from-right', 'enter-from-left');
+    }, 600);
+
+    dots[current].classList.remove('active');
+    dots[index].classList.add('active');
+
+    current = index;
+  }
+
+  function nextSlide() { setActive((current + 1) % slides.length, 'right'); }
+  function prevSlide() { setActive((current - 1 + slides.length) % slides.length, 'left'); }
+  function goTo(i) {
+    setActive(i, i > current ? 'right' : 'left');
+    restartAutoplay();
+  }
+
+  function startAutoplay() {
+    stopAutoplay();
+    autoplayInterval = setInterval(nextSlide, AUTOPLAY_DELAY);
+  }
+  function stopAutoplay() {
+    if (autoplayInterval) clearInterval(autoplayInterval);
+  }
+  function restartAutoplay() {
+    stopAutoplay();
+    startAutoplay();
+  }
+
+  nextBtn.addEventListener('click', () => { nextSlide(); restartAutoplay(); });
+  prevBtn.addEventListener('click', () => { prevSlide(); restartAutoplay(); });
+
+  slider.addEventListener('mouseenter', stopAutoplay);
+  slider.addEventListener('mouseleave', startAutoplay);
+
+  startAutoplay();
+}
+
+initSlider();
+</script>
+</main>
+
+  <script src="arxiki.js"></script>
+</body>
+</html>
