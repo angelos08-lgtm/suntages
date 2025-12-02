@@ -1,0 +1,35 @@
+    :root{
+      --bg:#fffdf8;
+      --card:#ffffff;
+      --accent:#c55b5b;
+      --text:#2b2b2b;
+      --muted:#6b6b6b;
+    }
+
+    .container{
+      max-width:760px;
+      width:100%;
+      background:var(--card);
+      border-radius:12px;
+      box-shadow:0 8px 24px rgba(0,0,0,0.08);
+      padding:28px;
+	  margin: 20px auto;
+    }
+    #titlearticle{ margin:0 0 8px; font-size:28px; color:var(--accent) }
+    p.lead{ margin:0 0 18px; color:var(--muted) }
+    .section{ margin-bottom:18px }
+    ul.ingredients{
+      list-style: disc;
+      padding-left:1.1rem;
+      margin:0;
+    }
+    ol.steps{
+      margin:0;
+      padding-left:1.1rem;
+    }
+    .note{ font-size:0.9rem; color:var(--muted); margin-top:10px }
+    .meta { font-size:0.9rem; color:var(--muted); margin-bottom:10px }
+    @media (max-width:520px){
+      .container{ padding:18px }
+      h1{ font-size:22px }
+    }
